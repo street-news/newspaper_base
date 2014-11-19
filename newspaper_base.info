@@ -96,3 +96,4 @@ files[] = includes/NewspaperBaseFeedList.class.php
 files[] = includes/NewspaperBaseFeaturedArticle.class.php
 files[] = includes/AdBean.class.php
 files[] = includes/SolrHomepageBeanStyle.php
+files[] = includes/LinkedListBeanStyle.php
