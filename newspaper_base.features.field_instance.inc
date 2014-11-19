@@ -145,6 +145,38 @@ function newspaper_base_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'bean-sociallinks-field_sociallinks_sociallinks'
+  $field_instances['bean-sociallinks-field_sociallinks_sociallinks'] = array(
+    'bundle' => 'sociallinks',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'field_sociallinks',
+        'settings' => array(),
+        'type' => 'sociallinks_sociallinks_formatter',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'bean',
+    'field_name' => 'field_sociallinks_sociallinks',
+    'label' => 'Social Links',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'field_sociallinks',
+      'settings' => array(),
+      'type' => 'sociallinks_sociallinks_widget',
+      'weight' => 1,
+    ),
+    'workbench_access_field' => 0,
+  );
+
   // Exported field_instance: 'file-image-field_caption'
   $field_instances['file-image-field_caption'] = array(
     'bundle' => 'image',
