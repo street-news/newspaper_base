@@ -115,6 +115,18 @@ function newspaper_base_menu_alter(&$items) {
 }
 
 /**
+ * Implements hook_permission().
+ */
+function newspaper_base_permission() {
+  return array(
+    'view expired ads' => array(
+      'title' => t('View expired ads'),
+      'description' => t('View ad blocks that have been expired'),
+    ),
+  );
+}
+
+/**
  * Implements hook_theme().
  */
 function newspaper_base_theme($existing, $type, $theme, $path) {
