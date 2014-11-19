@@ -1,0 +1,906 @@
+<?php
+/**
+ * @file
+ * Code for the base feature.
+ */
+
+include_once('newspaper_base.features.inc');
+
+/**
+ * Implements hook_bean_types_api_info().
+ */
+function newspaper_base_bean_types_api_info() {
+  return array(
+    'api' => bean_current_version(),
+  );
+}
+
+/**
+ * Implements hook_bean_types().
+ */
+function newspaper_base_bean_types() {
+  $plugins = array();
+  $plugin_path = drupal_get_path('module', 'newspaper_base');
+
+  $plugins['newspaper_base_issue_cover'] = array(
+    'label' => t('Issue Cover'),
+    'handler' => array(
+      'class' => 'NewspaperBaseIssueCover',
+      'parent' => 'BeanPlugin',
+    ),
+    'path' => $plugin_path . '/includes',
+    'file' => 'NewspaperBaseIssueCover.class.php',
+    'editable' => TRUE,
+  );
+
+  $plugins['newspaper_base_feed_list'] = array(
+    'label' => t('Feed List'),
+    'handler' => array(
+      'class' => 'NewspaperBaseFeedList',
+      'parent' => 'BeanPlugin',
+    ),
+    'path' => $plugin_path . '/includes',
+    'file' => 'NewspaperBaseFeedList.class.php',
+    'editable' => TRUE,
+  );
+
+  $plugins['newspaper_base_featured_article'] = array(
+    'label' => t('Featured Article'),
+    'handler' => array(
+      'class' => 'NewspaperBaseFeaturedArticle',
+      'parent' => 'BeanPlugin',
+    ),
+    'path' => $plugin_path . '/includes',
+    'file' => 'NewspaperBaseFeaturedArticle.class.php',
+    'editable' => TRUE,
+  );
+
+  $plugins['ad_bean'] = array(
+    'label' => t('Ad Block'),
+    'handler' => array(
+      'class' => 'AdBean',
+      'parent' => 'BeanPlugin',
+    ),
+    'path' => $plugin_path . '/includes',
+    'file' => 'AdBean.class.php',
+    'editable' => TRUE,
+  );
+
+  return $plugins;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function newspaper_base_menu() {
+  $items = array();
+
+  // Stub archive menu item so build works properly.
+  $items['archive'] = array(
+    'page callback' => 'archive',
+    'page arguments' => array(3),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['newspaper_base/article/autocomplete'] = array(
+    'page callback' => 'newspaper_base_article_autocomplete',
+    'page arguments' => array(3),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['newspaper_base/issue'] = array(
+    'page callback' => 'newspaper_base_article_issue_navigation',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function newspaper_base_menu_alter(&$items) {
+  $items['taxonomy/term/%taxonomy_term'] = array(
+    'title' => 'Taxonomy term',
+    'title callback' => 'taxonomy_term_title',
+    'title arguments' => array(2),
+    'page callback' => 'newspaper_base_taxonomy_term_page',
+    'access arguments' => array('access content'),
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function newspaper_base_theme($existing, $type, $theme, $path) {
+  return array(
+    'feed_list' => array(
+      'variables' => array(
+        'items' => array(),
+      ),
+      'template' => 'feed-list',
+      'path' => drupal_get_path('module', 'newspaper_base') . '/templates',
+    ),
+    'taxonomy_comma_list' => array(
+      'render element' => 'element',
+    ),
+    'newspaper_base_issue_cover' => array(
+      'variables' => array('term' => NULL),
+    ),
+    'newspaper_base_issue_cover_nav' => array(
+      'variables' => array('term' => NULL, 'previous_term' => NULL, 'next_term' => NULL),
+    ),
+  );
+}
+
+/**
+ * Implements hook_library().
+ */
+function newspaper_base_library() {
+  $libraries['swipebox'] = array(
+    'title' => 'Swipebox',
+    'website' => 'http://brutaldesign.github.io/swipebox/',
+    'version' => '1.3.0.1',
+    'js' => array(
+      drupal_get_path('module', 'newspaper_base') . '/js/jquery.swipebox.js' => array(),
+      drupal_get_path('module', 'newspaper_base') . '/js/drupal.swipebox.js' => array(),
+    ),
+    'css' => array(
+      drupal_get_path('module', 'newspaper_base') . '/css/swipebox/swipebox.css' => array(
+        'type' => 'file',
+        'media' => 'screen',
+      ),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
+ * Implements hook_menu_block_blocks().
+ */
+function newspaper_base_menu_block_blocks() {
+  // The array key is the block delta used by menu block.
+  return array(
+    'newspaper-base-1' => array(
+      'menu_name'   => 'main-menu',
+      'parent_mlid' => 0,
+      'title_link'  => 0,
+      'admin_title' => 'Main Menu Block',
+      'level'       => 1,
+      'follow'      => 0,
+      'depth'       => 3,
+      'expanded'    => 0,
+      'sort'        => 0,
+    ),
+    'newspaper-base-2' => array(
+      'menu_name'   => 'footer-menu',
+      'parent_mlid' => 0,
+      'title_link'  => 0,
+      'admin_title' => 'Footer Menu Block',
+      'level'       => 1,
+      'follow'      => 0,
+      'depth'       => 0,
+      'expanded'    => 0,
+      'sort'        => 0,
+    ),
+    'newspaper-base-3' => array(
+      'menu_name'   => 'header-menu',
+      'parent_mlid' => 0,
+      'title_link'  => 0,
+      'admin_title' => 'Header Menu Block',
+      'level'       => 1,
+      'follow'      => 0,
+      'depth'       => 0,
+      'expanded'    => 0,
+      'sort'        => 0,
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function newspaper_base_block_info() {
+  $blocks['issue_cover'] = array(
+    'info' => t('Issue Cover'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  $blocks['user_link'] = array(
+    'info' => t('user link'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function newspaper_base_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'issue_cover':
+      // Block that renders an issue cover image if viewed on a issue page.
+      $block = array(
+        'subject' => '',
+        'content' => newspaper_base_issue_cover_block(),
+      );
+      break;
+
+    case 'user_link':
+      if (!user_is_logged_in()) {
+        $block['subject'] = '';
+        $block['content'] = array(
+          'link' => array(
+            '#type' => 'link',
+            '#href' => 'user',
+            '#title' => 'Log In',
+            '#options' => array(
+              'attributes' => array(
+                'class' => array('btn'),
+              ),
+            ),
+          ),
+        );
+      }
+  }
+  return $block;
+}
+
+/**
+ * Block callback for issue cover image.
+ */
+function newspaper_base_issue_cover_block() {
+  $build = '';
+
+  if (($term = menu_get_object('taxonomy_term', 2)) && $term->vocabulary_machine_name == 'issue') {
+    $cover = field_get_items('taxonomy_term', $term, 'field_issue_image');
+    if ($cover) {
+      $build['issue'] = field_view_field('taxonomy_term', $term, 'field_issue_image', array(
+        'label' => 'hidden',
+        'type' => 'image',
+        'settings' => array(
+          'image_style' => 'issue_cover',
+        ),
+      ));
+
+      // Build previous/next issue term navigation items.
+      $links = array();
+      $previous_tid = newspaper_base_get_sibling_tid($term, 'previous');
+      if ($previous_tid) {
+        $previous_term = taxonomy_term_load($previous_tid);
+        $image = field_view_field('taxonomy_term', $previous_term, 'field_issue_image', array(
+          'label' => 'hidden',
+          'type' => 'image',
+          'settings' => array(
+            'image_style' => 'issue_cover',
+          ),
+        ));
+        $links[] = array(
+          '#theme' => 'link',
+          '#text' => t('<span>&larr;</span>'),
+          '#path' => 'taxonomy/term/' . $previous_tid,
+          '#options' => array(
+            'html' => TRUE,
+            'attributes' => array(
+              'class' => array('previous'),
+              'title' => t('Previous issue'),
+            ),
+          ),
+        );
+      }
+
+      $next_tid = newspaper_base_get_sibling_tid($term, 'next');
+      if ($next_tid) {
+        $next_term = taxonomy_term_load($next_tid);
+        $image = field_view_field('taxonomy_term', $next_term, 'field_issue_image', array(
+          'label' => 'hidden',
+          'type' => 'image',
+          'settings' => array(
+            'image_style' => 'issue_cover',
+          ),
+        ));
+        $links[] = array(
+          '#theme' => 'link',
+          '#text' => t('<span>&rarr;</span>'),
+          '#path' => 'taxonomy/term/' . $next_tid,
+          '#options' => array(
+            'html' => TRUE,
+            'attributes' => array(
+              'class' => array('next'),
+              'title' => t('Next issue'),
+            ),
+          ),
+        );
+      }
+
+      if ($links) {
+        $build['links'] = array(
+          '#weight' => 10,
+          '#prefix' => '<div class="navigation">',
+          '#suffix' => '</div>',
+          'links' => $links,
+        );
+      }
+    }
+  }
+
+  return $build;
+}
+
+/**
+ * Helper function to retrieve next/previous term.
+ */
+function newspaper_base_get_sibling_tid($term, $direction = 'next') {
+  $query = 'SELECT tid FROM {taxonomy_term_data} WHERE vid = :vid AND (weight {dir} :weight OR (weight = :weight AND name {dir} :name)) ORDER BY weight {order} LIMIT 1';
+
+  $replace = array(
+    '{order}' => $direction == 'next' ? 'DESC' : 'ASC',
+    '{dir}' => $direction == 'next' ? '<' : '>',
+  );
+
+  $tid = db_query(str_replace(array_keys($replace), $replace, $query), array(
+    ':vid' => $term->vid,
+    ':weight' => $term->weight,
+    ':name' => $term->name,
+  ))->fetchField();
+
+  return $tid;
+}
+
+/**
+ * Implements hook_form_node_form_alter().
+ */
+function newspaper_base_form_node_form_alter(&$form, &$form_state) {
+  if ($form['type']['#value'] === 'article') {
+    $form['options']['sticky']['#access'] = TRUE;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function newspaper_base_form_apachesolr_search_custom_page_search_form_alter(&$form, &$form_state, $form_id) {
+  unset($form['basic']['keys']['#title']);
+  $form['basic']['keys']['#attributes'] = array(
+    'placeholder' => 'Search',
+  );
+  unset($form['basic']['retain-filters']);
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function newspaper_base_preprocess_node(&$variables) {
+  $node = $variables['node'];
+
+  $variables['classes_array'][] = 'node-' . $variables['view_mode'];
+
+  if ($node->type === 'article') {
+
+    // For Article teaser:
+    if ($variables['view_mode'] === 'teaser') {
+
+      // Only ever show the first image in the images list.
+      if (isset($variables['content']['field_images'])) {
+        foreach (element_children($variables['content']['field_images']) as $delta) {
+          if ($delta === 0) {
+            continue;
+          }
+          unset($variables['content']['field_images'][$delta]);
+        }
+
+        // Remove the clearfix prefix & suffix.
+        unset($variables['content']['field_images']['#prefix']);
+        unset($variables['content']['field_images']['#suffix']);
+      }
+
+      if (isset($variables['elements']['#featured_mode'])) {
+        // Add template suggestions and classes if this article is featured.
+        $featured_mode = $variables['elements']['#featured_mode'];
+        $variables['theme_hook_suggestions'][] = 'node__article__' . $featured_mode;
+        $variables['classes_array'][] = 'node-article-' . $featured_mode;
+      }
+    }
+    // Article page:
+    elseif ($variables['view_mode'] === 'full') {
+      // Render taxonomy terms in a comma seprated list.
+      $variables['content']['field_tags']['#theme'] = 'taxonomy_comma_list';
+    }
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function newspaper_base_field_formatter_info() {
+  return array(
+    'image_lightbox' => array(
+      'label' => t('Lightbox'),
+      'field types' => array('image'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function newspaper_base_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $settings = $display['settings'];
+
+  switch ($display['type']) {
+    case 'image_lightbox':
+      if ($items) {
+        $element['#attached'] = array(
+          'library' => array(
+            array('newspaper_base', 'swipebox'),
+          ),
+        );
+
+        // @todo: make this a theme function.
+        $image_caption = function($file) {
+          $output = array();
+
+          $caption = field_get_items('file', $file, 'field_caption');
+          if ($caption) {
+            $output[] = $caption[0]['value'];
+          }
+
+          $credit = field_get_items('file', $file, 'field_credit');
+          if ($credit) {
+            $output[] = $credit[0]['value'];
+          }
+
+          return join("\n", $output);
+        };
+
+        // @todo: make this configurable.
+        $view_mode = 'default';
+
+        $item = array_shift($items);
+        $file = file_load($item['fid']);
+        $file_build = file_view($file, $view_mode);
+
+        // Only render children, to prevent any stray links being added to mess
+        // up lightbox actions.
+        foreach (element_children($file_build) as $child) {
+          if ($child != 'links') {
+            $build[$child] = $file_build[$child];
+          }
+        }
+
+        if (count($items)) {
+          $click_notice = '<span class="click-notice">Click to view all images</span>';
+        }
+        else {
+          $click_notice = '<span class="click-notice">Click to view larger</span>';
+        }
+
+        list($entity_id) = entity_id($entity_type, $entity);
+        $gallery_id = 'swipebox-' . $entity_type . '-' . $entity_id;
+
+        $caption = $image_caption($file);
+        $uri = image_style_url('article_image_full', $file->uri);
+        $build['#prefix'] = "<a class='swipebox' href='$uri' title='$caption' rel='$gallery_id'>";
+        $build['#suffix'] = '</a>';
+
+        $build['file']['#prefix'] = '<figure>';
+        $build['file']['#suffix'] = $click_notice . '</figure>';
+
+        $caption = array(
+          '#weight' => 10,
+          '#prefix' => '<figcaption>',
+          '#suffix' => '</figcaption>',
+        );
+        foreach (element_children($build) as $child) {
+          if ($child != 'file') {
+            $caption[$child] = $build[$child];
+            $build[$child]['#access'] = FALSE;
+          }
+        }
+        $build['caption'] = $caption;
+
+        $element[0] = $build;
+        $element[0]['file']['#image_style'] = 'article_image';
+
+        // Loop over all images but the first, create lightbox links for the
+        // images in $image_links and remove the rest of the content.
+        foreach ($items as $delta => $item) {
+          $file = file_load($item['fid']);
+          $uri = image_style_url('article_image_full', $file->uri);
+          $caption = htmlentities($image_caption($file));
+
+          $element[$delta + 1] = array(
+            '#markup' => "<a class='swipebox' href='$uri' title='$caption' rel='$gallery_id' style='display: none;'>$caption</a>",
+          );
+        }
+      }
+      break;
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_preprocess_field().
+ */
+function newspaper_base_preprocess_field(&$variables) {
+  if ($variables['element']['#field_name'] == 'field_byline') {
+    $variables['classes_array'][] = 'lead';
+  }
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function newspaper_base_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['title_list'] = array(
+    'label' => t('Title List'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Implements hook_username_alter().
+ */
+function newspaper_base_username_alter(&$name, $account) {
+  $account = user_load($account->uid);
+  $field_user_name = field_get_items('user', $account, 'field_user_name');
+  if (isset($field_user_name[0]['safe_value'])) {
+    $name = $field_user_name[0]['safe_value'];
+  }
+}
+
+/**
+ * Implements hook_date_formats().
+ */
+function newspaper_base_date_formats() {
+  return array(
+    array(
+      'type' => 'newspaper_default',
+      'format' => 'M j, Y',
+    ),
+  );
+}
+
+/**
+ * Implements hook_date_format_types().
+ */
+function newspaper_base_date_format_types() {
+  return array(
+    'newspaper_default' => 'Newspaper Default',
+  );
+}
+
+/**
+ * Implements hook_bean_style_info().
+ */
+function newspaper_base_bean_style_info() {
+  return array(
+    'solr_homepage' => array(
+      'label'          => 'Homepage',
+      'class'          => 'SolrHomepageBeanStyle',
+      'bean_types'     => array(
+        'solr_bean',
+      ),
+    ),
+  );
+}
+
+/**
+ * Callback for article title/nid autocomplete.
+ */
+function newspaper_base_article_autocomplete($string) {
+  $items = array();
+
+  $records = db_query("SELECT DISTINCT nid, title FROM {node} WHERE status = :status AND title LIKE :title AND type = :type", array(
+    ':status' => 1,
+    ':title' => "%$string%",
+    ':type' => 'article',
+  ));
+
+  foreach ($records as $row) {
+    $slug = "$row->title [nid:$row->nid]";
+    $items[$slug] = check_plain($row->title);
+  }
+
+  print drupal_json_output($items);
+  exit;
+}
+
+/**
+ * Implements hook_user_view().
+ */
+function newspaper_base_user_view($account, $view_mode, $langcode) {
+
+  if ($view_mode === 'full') {
+
+    // Add list of user articles
+    $bean = bean_create(array(
+      'type' => 'solr_bean',
+      'search_page' => 'core_search',
+      'facets' =>
+      array (
+        'bundle' =>
+        array (
+          'visible' => 0,
+          'default_value' => 'article',
+          'field' => 'bundle',
+        ),
+        'author' =>
+        array (
+          'visible' => 0,
+          'default_value' => $account->uid,
+          'field' => 'is_uid',
+        ),
+        'keys' =>
+        array (
+          'visible' => 0,
+          'default_value' => '',
+        ),
+      ),
+      'settings' =>
+      array (
+        'pager' => 1,
+        'results_per_page' => '10',
+      ),
+      'results_view_mode' => 'teaser',
+      'sort' =>
+      array (
+        'field' => 'ds_created',
+        'order' => 'desc',
+      ),
+    ));
+    $bean->bid = 0;
+    $bean->delta = 'articles';
+    $bean->bean_style = 'list';
+
+    $style = bean_style_type_load($bean->bean_style);
+    $build = bean_view($bean);
+
+    // Add the results to the account array.
+    $account->content['user_articles'] = array(
+      '#prefix' => '<div class="user-articles">',
+      '#suffix' => '</div>',
+      'header' => array(
+        '#markup' => '<h2>Articles by ' . theme('username', array('account' => $account)) . '</h2>',
+      ),
+      'results' => $style->prepareView($build['bean'][$bean->delta], $bean),
+    );
+  }
+}
+
+/**
+ * Theme callback.
+ *
+ * Renders a list of taxonomy terms in a comma seprated list.
+ */
+function theme_taxonomy_comma_list($variables) {
+  if (!isset($variables['element']['#items'])) {
+    return;
+  }
+
+  // Pass variables through field preprocessing, since this isn't actually a
+  // field theme function.
+  template_preprocess_field($variables, '');
+  template_process_field($variables, '');
+
+  $output = '';
+
+  // Render the label, if it's not hidden.
+  if (!$variables['label_hidden']) {
+    $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . ':&nbsp;</div>';
+  }
+
+  // Build links array.
+  $links = array();
+  foreach ($variables['items'] as $delta => $item) {
+    $links[] = drupal_render($item);
+  }
+
+  $output .= implode(', ', $links);
+
+  // Render the top-level DIV.
+  $output = '<div class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+
+  return $output;
+}
+
+/**
+ * Page callback for 'taxonomy/term/%taxonomy_term'.
+ *
+ * Used to redirect tag & section terms to the `/archive` page filtered by the
+ * given term.
+ */
+function newspaper_base_taxonomy_term_page($term) {
+  $solr_query = FALSE;
+  if ($term->vocabulary_machine_name === 'tag') {
+    $solr_query = 'im_field_tags:' . $term->tid;
+  }
+  if ($term->vocabulary_machine_name === 'section') {
+    $solr_query = 'im_field_section:' . $term->tid;
+  }
+  if ($solr_query) {
+    drupal_goto('archive', array(
+      'query' => array(
+        'f' => array(
+          $solr_query,
+        ),
+      ),
+    ));
+  }
+
+  module_load_include('inc', 'taxonomy', 'taxonomy.pages');
+  $build = taxonomy_term_page($term);
+
+  // On issue pages, group nodes by section.
+  if ($term->vocabulary_machine_name === 'issue') {
+    $vocab = taxonomy_vocabulary_machine_name_load('section');
+    $terms = taxonomy_get_tree($vocab->vid);
+
+    $term_build = array();
+
+    $base_query = new EntityFieldQuery();
+    $base_query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'article')
+      ->propertyCondition('status', 1)
+      ->fieldCondition('field_issue', 'tid', $term->tid)
+      ->propertyOrderBy('created', 'DESC');
+
+    foreach ($terms as $section_term) {
+      $query = clone $base_query;
+      $query->fieldCondition('field_section', 'tid', $section_term->tid);
+
+      $result = $query->execute();
+      if (!empty($result['node'])) {
+        $term_build[$section_term->tid]['header'] = array(
+          '#prefix' => '<h2 class="section-heading">',
+          '#markup' => $section_term->name,
+          '#suffix' => '</h2>',
+        );
+
+        $nodes = node_load_multiple(array_keys($result['node']));
+        $term_build[$section_term->tid]['nodes'] = node_view_multiple($nodes, 'teaser');
+      }
+    }
+
+    $build['nodes'] = $term_build;
+    $build['pager']['#access'] = FALSE;
+
+    // Allow other modules to alter node listings.
+    drupal_alter('newspaper_base_issue', $build, $term);
+  }
+
+  return $build;
+}
+
+/**
+ * Implements hook_action_info().
+ */
+function newspaper_base_action_info() {
+  $actions = array(
+    'newspaper_base_article_moderation_draft' => array(
+      'type' => 'node',
+      'label' => t('Moderate to Draft'),
+      'configurable' => FALSE,
+      'triggers' => array(),
+    ),
+    'newspaper_base_article_moderation_needs_review' => array(
+      'type' => 'node',
+      'label' => t('Moderate to Needs Review'),
+      'configurable' => TRUE,
+      'triggers' => array(),
+    ),
+    'newspaper_base_article_moderation_published' => array(
+      'type' => 'node',
+      'label' => t('Moderate to Published'),
+      'configurable' => TRUE,
+      'triggers' => array(),
+    ),
+  );
+
+  return $actions;
+}
+
+/**
+ * Set workbench moderation status to Draft.
+ */
+function newspaper_base_article_moderation_draft($node, $context) {
+  workbench_moderation_moderate($node, 'draft');
+}
+
+/**
+ * Set workbench moderation status to Needs Review.
+ */
+function newspaper_base_article_moderation_needs_review($node, $context) {
+  workbench_moderation_moderate($node, 'needs_review');
+}
+
+/**
+ * Set workbench moderation status to Published.
+ */
+function newspaper_base_article_moderation_published($node, $context) {
+  workbench_moderation_moderate($node, 'published');
+}
+
+/**
+ * Implements hook_field_attach_view_alter().
+ */
+function newspaper_base_field_attach_view_alter(&$output, $context) {
+  if ($context['entity_type'] == 'bean' && $context['entity']->type == 'linkbean') {
+    if (isset($output['field_linkbean_links'])) {
+      foreach (element_children($output['field_linkbean_links']) as $child) {
+        $output['field_linkbean_links'][$child]['#element']['attributes']['class'] = 'btn';
+      }
+    }
+  }
+}
+
+/**
+ * Theme callback for base issue cover block.
+ */
+function theme_newspaper_base_issue_cover($variables) {
+  $term = $variables['term'];
+  $output = '';
+
+  $image_items = field_get_items('taxonomy_term', $term, 'field_issue_image');
+
+  $cover = array(
+    '#prefix' => '<a href="' . url('taxonomy/term/' . $term->tid) . '">',
+    '#suffix' => '</a>',
+    '#theme' => 'image_style',
+    '#style_name' => 'issue_cover',
+    '#path' => $image_items[0]['uri'],
+  );
+
+  $output .= drupal_render($cover);
+
+  return $output;
+}
+
+/**
+ * AJAX callback for issue block navigation.
+ */
+function newspaper_base_article_issue_navigation() {
+  $input = $_GET;
+  if (!$input && empty($input['tid'])) {
+    return drupal_not_found();
+  }
+
+  $input += array(
+    'direction' => 'previous',
+  );
+
+  $output = '';
+
+  $term = taxonomy_term_load($input['tid']);
+  $tid = newspaper_base_get_sibling_tid($term, $input['direction']);
+  if ($tid) {
+    $term = taxonomy_term_load($tid);
+    $output = '<li data-tid="' . $tid . '">';
+    $output .= theme('newspaper_base_issue_cover', array('term' => $term));
+    $output .= '</li>';
+  }
+
+  $manifest['item'] = $output;
+  $manifest['direction'] = $input['direction'];
+
+  drupal_json_output($manifest);
+}
+
+/**
+ * Theme callback for issue cover nav block
+ */
+function theme_newspaper_base_issue_cover_nav($variables) {
+  $term = $variables['term'];
+}

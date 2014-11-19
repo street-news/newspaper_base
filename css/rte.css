@@ -1,0 +1,19 @@
+/**
+ * Styles to load into the rich text editor.  Not included in frontend theme.
+ */
+.pullquote-left-text,
+.pullquote-right-text {
+  background-color: #fcf495;
+}
+img {
+  display: block;
+  margin: 3px 1em 1em;
+}
+img.img-left {
+  float: left;
+  margin-left: 0;
+}
+img.img-right {
+  float: right;
+  margin-right: 0;
+}

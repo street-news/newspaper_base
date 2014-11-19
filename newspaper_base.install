@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for newspaper_base.module
+ */
+
+
+/**
+ * Implements hook_install().
+ */
+function newspaper_base_install() {
+}
