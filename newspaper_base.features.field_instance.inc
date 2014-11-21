@@ -885,7 +885,7 @@ function newspaper_base_field_default_field_instances() {
         'progress_indicator' => 'throbber',
       ),
       'type' => 'media_generic',
-      'weight' => 31,
+      'weight' => 5,
     ),
   );
 
