@@ -34,7 +34,7 @@ class NewspaperBaseIssueCover extends BeanPlugin {
       '#type' => 'select',
       '#options' => array('' => t('Current Issue')) + $options,
       '#default_value' => !empty($bean->tid) ? $bean->tid : '',
-      '#description' => 'Select the issue to show.',
+      '#description' => 'Select the issue to show. Leave blank to show the latest current issue.',
     );
     return $form;
   }
