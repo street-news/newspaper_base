@@ -93,7 +93,6 @@ features[views_view][] = sitewide_rss_feed
 features_exclude[field_base][field_sociallinks_sociallinks] = field_sociallinks_sociallinks
 features_exclude[taxonomy][access_control_sections] = access_control_sections
 files[] = includes/NewspaperBaseIssueCover.class.php
-files[] = includes/NewspaperBaseFeedList.class.php
 files[] = includes/NewspaperBaseFeaturedArticle.class.php
 files[] = includes/AdBean.class.php
 files[] = includes/SolrHomepageBeanStyle.php

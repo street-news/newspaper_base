@@ -33,17 +33,6 @@ function newspaper_base_bean_types() {
     'editable' => TRUE,
   );
 
-  $plugins['newspaper_base_feed_list'] = array(
-    'label' => t('Feed List'),
-    'handler' => array(
-      'class' => 'NewspaperBaseFeedList',
-      'parent' => 'BeanPlugin',
-    ),
-    'path' => $plugin_path . '/includes',
-    'file' => 'NewspaperBaseFeedList.class.php',
-    'editable' => TRUE,
-  );
-
   $plugins['newspaper_base_featured_article'] = array(
     'label' => t('Featured Article'),
     'handler' => array(
@@ -131,13 +120,6 @@ function newspaper_base_permission() {
  */
 function newspaper_base_theme($existing, $type, $theme, $path) {
   return array(
-    'feed_list' => array(
-      'variables' => array(
-        'items' => array(),
-      ),
-      'template' => 'feed-list',
-      'path' => drupal_get_path('module', 'newspaper_base') . '/templates',
-    ),
     'taxonomy_comma_list' => array(
       'render element' => 'element',
     ),
