@@ -31,12 +31,6 @@ function newspaper_base_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'streetroots_base-solr_search_block' => array(
-          'module' => 'streetroots_base',
-          'delta' => 'solr_search_block',
-          'region' => 'content',
-          'weight' => '-30',
-        ),
         'apachesolr_search-sort' => array(
           'module' => 'apachesolr_search',
           'delta' => 'sort',
