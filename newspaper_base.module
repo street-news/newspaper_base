@@ -777,6 +777,8 @@ function theme_taxonomy_comma_list($variables) {
  *
  * Used to redirect tag & section terms to the `/archive` page filtered by the
  * given term.
+ *
+ * @todo: switch to new hook_taxonomy_term_view_alter().
  */
 function newspaper_base_taxonomy_term_page($term) {
   $solr_query = FALSE;
@@ -961,8 +963,16 @@ function newspaper_base_article_issue_navigation() {
 }
 
 /**
- * Theme callback for issue cover nav block
+ * Theme callback for issue cover nav block.
  */
 function theme_newspaper_base_issue_cover_nav($variables) {
   $term = $variables['term'];
+}
+
+/**
+ * Implements hook_tiles_info_alter().
+ */
+function newspaper_base_tiles_info_alter(&$tiles) {
+  // Remove bean container from available beans for tiles.
+  unset($tiles['bean types'][array_search('bean_container', $tiles['bean types'])]);
 }
