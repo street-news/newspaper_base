@@ -920,7 +920,12 @@ function theme_newspaper_base_issue_cover($variables) {
     '#path' => $image_items[0]['uri'],
   );
 
-  $output .= drupal_render($cover);
+  $cover = drupal_render($cover);
+
+  $name = '<h6 class="date"><strong>' . $term->name . '</strong></h6>';
+  $description = '<p class="description">' . $term->description . '</p>';
+  $output = $cover . '<div class="text">' . $name . $description . '</div>';
+  $output = '<a href="' . url('taxonomy/term/' . $term->tid) . '">' . $output . '</a>';
 
   return $output;
 }
