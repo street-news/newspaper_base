@@ -608,14 +608,6 @@ function newspaper_base_bean_style_info() {
         'solr_bean',
       ),
     ),
-    'linked_list' => array(
-      'label'          => 'Linked list',
-      'class'          => 'LinkedListBeanStyle',
-      'bean_types'     => array(
-        'solr_bean',
-        'featuredbean',
-      ),
-    ),
   );
 }
 
