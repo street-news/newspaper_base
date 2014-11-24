@@ -406,13 +406,6 @@ function newspaper_base_preprocess_node(&$variables) {
         unset($variables['content']['field_images']['#prefix']);
         unset($variables['content']['field_images']['#suffix']);
       }
-
-      if (isset($variables['elements']['#featured_mode'])) {
-        // Add template suggestions and classes if this article is featured.
-        $featured_mode = $variables['elements']['#featured_mode'];
-        $variables['theme_hook_suggestions'][] = 'node__article__' . $featured_mode;
-        $variables['classes_array'][] = 'node-article-' . $featured_mode;
-      }
     }
     // Article page:
     elseif ($variables['view_mode'] === 'full') {
