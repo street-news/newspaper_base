@@ -475,6 +475,37 @@ function newspaper_base_field_default_field_bases() {
     'type' => 'sociallinks',
   );
 
+  // Exported field_base: 'field_sociallinks_sociallinks'
+  $field_bases['field_sociallinks_sociallinks'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_sociallinks_sociallinks',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'field_sociallinks',
+    'settings' => array(
+      'social_services' => array(
+        'facebook' => 'facebook',
+        'flickr' => 'flickr',
+        'google-plus' => 'google-plus',
+        'instagram' => 'instagram',
+        'linkedin' => 'linkedin',
+        'myspace' => 'myspace',
+        'rss' => 'rss',
+        'tumblr' => 'tumblr',
+        'twitter' => 'twitter',
+        'vimeo' => 'vimeo',
+        'website' => 'website',
+        'youtube' => 'youtube',
+      ),
+    ),
+    'translatable' => 0,
+    'type' => 'sociallinks',
+  );
+
   // Exported field_base: 'field_tags'
   $field_bases['field_tags'] = array(
     'active' => 1,
