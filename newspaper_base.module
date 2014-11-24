@@ -888,8 +888,7 @@ function theme_newspaper_base_issue_cover($variables) {
   $cover = drupal_render($cover);
 
   $name = '<h6 class="date"><strong>' . $term->name . '</strong></h6>';
-  $description = '<p class="description">' . $term->description . '</p>';
-  $output = $cover . '<div class="text">' . $name . $description . '</div>';
+  $output = $cover . '<div class="text">' . $name . '</div>';
   $output = '<a href="' . url('taxonomy/term/' . $term->tid) . '">' . $output . '</a>';
 
   return $output;

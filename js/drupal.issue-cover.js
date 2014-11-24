@@ -49,7 +49,8 @@
           type: 'GET',
           url: Drupal.settings.basePath + 'newspaper_base/issue',
           data: {
-            tid: $current[direction]('li').attr('data-tid')
+            tid: $current[direction]('li').attr('data-tid'),
+            direction: direction
           },
           dataType: 'html',
           success: $.proxy(function(data, textStatus, jqXHR) {
