@@ -33,17 +33,6 @@ function newspaper_base_bean_types() {
     'editable' => TRUE,
   );
 
-  $plugins['newspaper_base_featured_article'] = array(
-    'label' => t('Featured Article'),
-    'handler' => array(
-      'class' => 'NewspaperBaseFeaturedArticle',
-      'parent' => 'BeanPlugin',
-    ),
-    'path' => $plugin_path . '/includes',
-    'file' => 'NewspaperBaseFeaturedArticle.class.php',
-    'editable' => TRUE,
-  );
-
   $plugins['ad_bean'] = array(
     'label' => t('Ad Block'),
     'handler' => array(
@@ -606,6 +595,13 @@ function newspaper_base_bean_style_info() {
       'class'          => 'SolrHomepageBeanStyle',
       'bean_types'     => array(
         'solr_bean',
+      ),
+    ),
+    'callout' => array(
+      'label'          => 'Callout',
+      'class'          => 'CalloutBeanStyle',
+      'bean_types'     => array(
+        'featuredbean',
       ),
     ),
   );
