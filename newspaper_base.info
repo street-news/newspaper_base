@@ -21,7 +21,6 @@ dependencies[] = media
 dependencies[] = media_wysiwyg_view_mode
 dependencies[] = menu
 dependencies[] = menu_block
-dependencies[] = ombubench
 dependencies[] = ombucleanup
 dependencies[] = ombuslide
 dependencies[] = options
