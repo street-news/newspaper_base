@@ -910,7 +910,7 @@ function newspaper_base_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'text_processing' => 1,
-      'user_register_form' => 0,
+      'user_register_form' => 1,
     ),
     'widget' => array(
       'active' => 1,
@@ -921,6 +921,7 @@ function newspaper_base_field_default_field_instances() {
       'type' => 'text_textarea',
       'weight' => 3,
     ),
+    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'user-user-field_sociallinks'
@@ -943,7 +944,7 @@ function newspaper_base_field_default_field_instances() {
     'label' => 'Social Links',
     'required' => 0,
     'settings' => array(
-      'user_register_form' => 0,
+      'user_register_form' => 1,
     ),
     'widget' => array(
       'active' => 0,
@@ -952,6 +953,7 @@ function newspaper_base_field_default_field_instances() {
       'type' => 'sociallinks_sociallinks_widget',
       'weight' => 4,
     ),
+    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'user-user-field_title'
@@ -975,7 +977,7 @@ function newspaper_base_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
-      'user_register_form' => 0,
+      'user_register_form' => 1,
     ),
     'widget' => array(
       'active' => 1,
@@ -986,6 +988,7 @@ function newspaper_base_field_default_field_instances() {
       'type' => 'text_textfield',
       'weight' => 1,
     ),
+    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'user-user-field_user_name'
@@ -1008,7 +1011,7 @@ function newspaper_base_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
-      'user_register_form' => 0,
+      'user_register_form' => 1,
     ),
     'widget' => array(
       'active' => 1,
@@ -1019,6 +1022,7 @@ function newspaper_base_field_default_field_instances() {
       'type' => 'text_textfield',
       'weight' => 2,
     ),
+    'workbench_access_field' => 0,
   );
 
   // Translatables
