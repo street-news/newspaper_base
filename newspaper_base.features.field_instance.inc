@@ -347,7 +347,7 @@ function newspaper_base_field_default_field_instances() {
     'bundle' => 'article',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Users with these publishing access tags will have access to manage this content.',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -388,7 +388,7 @@ function newspaper_base_field_default_field_instances() {
         'use_select2' => FALSE,
       ),
       'type' => 'options_select',
-      'weight' => 2,
+      'weight' => 10,
     ),
     'workbench_access_field' => 1,
   );
@@ -795,7 +795,7 @@ function newspaper_base_field_default_field_instances() {
     'bundle' => 'page',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Users with these publishing access tags will have access to manage this content.',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
