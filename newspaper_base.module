@@ -878,8 +878,8 @@ function theme_newspaper_base_issue_cover($variables) {
   $image_items = field_get_items('taxonomy_term', $term, 'field_issue_image');
 
   $cover = array(
-    '#prefix' => '<a href="' . url('taxonomy/term/' . $term->tid) . '">',
-    '#suffix' => '</a>',
+    '#prefix' => '<div class="image">',
+    '#suffix' => '</div>',
     '#theme' => 'image_style',
     '#style_name' => 'issue_cover',
     '#path' => $image_items[0]['uri'],
