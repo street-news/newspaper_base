@@ -550,10 +550,12 @@ function newspaper_base_entity_info_alter(&$entity_info) {
  * Implements hook_username_alter().
  */
 function newspaper_base_username_alter(&$name, $account) {
-  $account = user_load($account->uid);
-  $field_user_name = field_get_items('user', $account, 'field_user_name');
-  if (isset($field_user_name[0]['safe_value'])) {
-    $name = $field_user_name[0]['safe_value'];
+  if (empty($account->is_new)) {
+    $account = user_load($account->uid);
+    $field_user_name = field_get_items('user', $account, 'field_user_name');
+    if (isset($field_user_name[0]['safe_value'])) {
+      $name = $field_user_name[0]['safe_value'];
+    }
   }
 }
 
