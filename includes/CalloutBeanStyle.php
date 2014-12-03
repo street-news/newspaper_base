@@ -22,7 +22,9 @@ class CalloutBeanStyle extends BeanStyle {
    */
   protected function prepareItems($build, $type) {
     foreach ($build['#featured_content'] as $content) {
-      $this->items[] = node_view($content['entity'], 'teaser');
+      $node_build = node_view($content['entity'], 'teaser');
+      $node_build['#featured_mode'] = 'callout';
+      $this->items[] = $node_build;
     }
   }
 }
