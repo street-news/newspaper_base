@@ -488,10 +488,10 @@ function newspaper_base_field_default_field_bases() {
     'module' => 'field_sociallinks',
     'settings' => array(
       'social_services' => array(
-        0 => 'facebook',
-        1 => 'rss',
-        2 => 'twitter',
-        3 => 'vimeo',
+        'facebook' => 'facebook',
+        'rss' => 'rss',
+        'twitter' => 'twitter',
+        'vimeo' => 'vimeo',
       ),
     ),
     'translatable' => 0,
