@@ -878,6 +878,14 @@ function theme_newspaper_base_issue_cover($variables) {
   $output = '';
 
   $image_items = field_get_items('taxonomy_term', $term, 'field_issue_image');
+  if (!$image_items) {
+    // Get default image if no image is present.
+    $instance = field_info_instance('taxonomy_term', 'field_issue_image', 'issue');
+    if ($instance['settings']['default_image']) {
+      $file = file_load($instance['settings']['default_image']);
+      $image_items[0]['uri'] = $file->uri;
+    }
+  }
 
   $cover = array(
     '#prefix' => '<div class="image">',
