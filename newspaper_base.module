@@ -389,6 +389,13 @@ function newspaper_base_form_bean_form_alter(&$form, $form_state) {
       $form['facets'][$facet]['visible']['#access'] = FALSE;
     }
   }
+  elseif ($form['#bundle'] == 'linkbean') {
+    $form['results_view_mode']['#options'] = array(
+      'block' => 'List',
+    );
+    $form['results_view_mode']['#default_view'] = 'block';
+    $form['results_view_mode']['#access'] = FALSE;
+  }
 }
 
 /**
