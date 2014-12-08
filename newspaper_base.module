@@ -192,7 +192,7 @@ function newspaper_base_menu_block_blocks() {
 function newspaper_base_block_info() {
   $blocks['issue_cover'] = array(
     'info' => t('Issue Cover'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
+    'cache' => DRUPAL_CACHE_PER_PAGE
   );
 
   $blocks['user_link'] = array(
