@@ -970,4 +970,5 @@ function theme_newspaper_base_issue_cover_nav($variables) {
 function newspaper_base_tiles_info_alter(&$tiles) {
   // Remove bean container from available beans for tiles.
   unset($tiles['bean types'][array_search('bean_container', $tiles['bean types'])]);
+  unset($tiles['bean types'][array_search('sociallinks', $tiles['bean types'])]);
 }
