@@ -345,7 +345,18 @@ function newspaper_base_get_sibling_tid($term, $direction = 'next') {
 function newspaper_base_form_node_form_alter(&$form, &$form_state) {
   if ($form['type']['#value'] === 'article') {
     $form['options']['sticky']['#access'] = TRUE;
+    $form['#after_build'][] = 'newspaper_base_form_node_form_after_build';
   }
+}
+
+/**
+ * After build call back for article node form.
+ *
+ * Removes unnecessary help text from select2 tag form element.
+ */
+function newspaper_base_form_node_form_after_build($form, $form_state) {
+  $form['field_tags'][LANGUAGE_NONE]['#description'] = '';
+  return $form;
 }
 
 /**
