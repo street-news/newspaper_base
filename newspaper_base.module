@@ -702,6 +702,7 @@ function newspaper_base_user_view($account, $view_mode, $langcode) {
 
     // Add the results to the account array.
     $account->content['user_articles'] = array(
+      '#weight' => 50,
       '#prefix' => '<div class="user-articles">',
       '#suffix' => '</div>',
       'header' => array(
@@ -709,6 +710,13 @@ function newspaper_base_user_view($account, $view_mode, $langcode) {
       ),
       'results' => $style->prepareView($build['bean'][$bean->delta], $bean),
     );
+
+    if (!empty($account->content['field_title'])) {
+      $account->content['field_title'] += array(
+        '#prefix' => '<h3>',
+        '#suffix' => '</h3>',
+      );
+    }
   }
 }
 

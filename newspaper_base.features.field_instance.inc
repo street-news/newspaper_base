@@ -924,44 +924,12 @@ function newspaper_base_field_default_field_instances() {
     'workbench_access_field' => 0,
   );
 
-  // Exported field_instance: 'user-user-field_sociallinks'
-  $field_instances['user-user-field_sociallinks'] = array(
-    'bundle' => 'user',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'module' => 'field_sociallinks',
-        'settings' => array(),
-        'type' => 'sociallinks_sociallinks_formatter',
-        'weight' => 3,
-      ),
-    ),
-    'entity_type' => 'user',
-    'field_name' => 'field_sociallinks',
-    'label' => 'Social Links',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => 1,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'field_sociallinks',
-      'settings' => array(),
-      'type' => 'sociallinks_sociallinks_widget',
-      'weight' => 4,
-    ),
-    'workbench_access_field' => 0,
-  );
-
   // Exported field_instance: 'user-user-field_title'
   $field_instances['user-user-field_title'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Optional position title that will be shown on profile page (e.g Editor).',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -986,7 +954,7 @@ function newspaper_base_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 1,
+      'weight' => 0,
     ),
     'workbench_access_field' => 0,
   );
@@ -996,7 +964,7 @@ function newspaper_base_field_default_field_instances() {
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Optional alternate display name. If empty, username will be shown on profile and bylines.',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -1020,7 +988,7 @@ function newspaper_base_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 2,
+      'weight' => 1,
     ),
     'workbench_access_field' => 0,
   );
@@ -1040,6 +1008,8 @@ function newspaper_base_field_default_field_instances() {
   t('Issue');
   t('Listed authors of this blog post');
   t('Name');
+  t('Optional alternate display name. If empty, username will be shown on profile and bylines.');
+  t('Optional position title that will be shown on profile page (e.g Editor).');
   t('Publishing Access');
   t('Section');
   t('Social Links');
@@ -1047,6 +1017,7 @@ function newspaper_base_field_default_field_instances() {
   t('Tags');
   t('Title');
   t('URL');
+  t('Users with these publishing access tags will have access to manage this content.');
 
   return $field_instances;
 }
