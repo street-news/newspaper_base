@@ -860,7 +860,7 @@ function newspaper_base_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
-      'default_image' => 1,
+      'default_image' => 0,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
@@ -954,7 +954,7 @@ function newspaper_base_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => -2,
+      'weight' => -12,
     ),
     'workbench_access_field' => 0,
   );
@@ -988,7 +988,7 @@ function newspaper_base_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => -1,
+      'weight' => -11,
     ),
     'workbench_access_field' => 0,
   );
