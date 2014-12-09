@@ -396,6 +396,9 @@ function newspaper_base_form_bean_form_alter(&$form, $form_state) {
     $form['results_view_mode']['#default_view'] = 'block';
     $form['results_view_mode']['#access'] = FALSE;
   }
+  elseif ($form['#bundle'] == 'ad_bean') {
+    $form['field_ad_image'][LANGUAGE_NONE][0]['#title'] .= ' <span title="This field is required." class="form-required">*</span>';
+  }
 }
 
 /**

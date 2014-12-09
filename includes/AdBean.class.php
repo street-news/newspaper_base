@@ -10,9 +10,19 @@
  * Placeholder class.  The fields are applied to the bean via features.
  */
 class AdBean extends BeanPlugin {
+  /**
+   * Implements parent::validate().
+   */
+  public function validate($values, &$form_state) {
+    // Validate image here since media_element_validate() will fail going
+    // through the tiles add form.
+    if (empty($values['field_ad_image'][LANGUAGE_NONE][0]['fid'])) {
+      form_set_error('field_ad_image[und][0][fid]', t('Ad image is required'));
+    }
+  }
 
   /**
-   * Implements the view method for this class
+   * Implements parent::view().
    */
   public function view($bean, $content, $view_mode = 'default', $langcode = NULL) {
 
