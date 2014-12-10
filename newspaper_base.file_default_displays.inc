@@ -16,7 +16,7 @@ function newspaper_base_file_default_displays() {
   $file_display->weight = 50;
   $file_display->status = TRUE;
   $file_display->settings = array(
-    'image_style' => '',
+    'image_style' => 'large',
     'image_link' => '',
   );
   $export['image__default__file_field_image'] = $file_display;
