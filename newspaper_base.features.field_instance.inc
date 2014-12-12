@@ -613,8 +613,17 @@ function newspaper_base_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_issue',
     'label' => 'Issue',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
+      'select2_integration' => array(
+        'allow_add_onfly' => 0,
+        'show_voc_terms_page_link' => 0,
+        'styling' => array(
+          'dropdownAutoWidth' => 0,
+          'placeholder' => '',
+        ),
+        'use_select2' => 0,
+      ),
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -626,16 +635,13 @@ function newspaper_base_field_default_field_instances() {
       'type' => 'options_select',
       'weight' => 3,
     ),
+    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'node-article-field_section'
   $field_instances['node-article-field_section'] = array(
     'bundle' => 'article',
-    'default_value' => array(
-      0 => array(
-        'tid' => 2,
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -667,8 +673,17 @@ function newspaper_base_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_section',
     'label' => 'Section',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
+      'select2_integration' => array(
+        'allow_add_onfly' => 0,
+        'show_voc_terms_page_link' => 0,
+        'styling' => array(
+          'dropdownAutoWidth' => 0,
+          'placeholder' => '',
+        ),
+        'use_select2' => 0,
+      ),
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -680,6 +695,7 @@ function newspaper_base_field_default_field_instances() {
       'type' => 'options_select',
       'weight' => 4,
     ),
+    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'node-article-field_tags'

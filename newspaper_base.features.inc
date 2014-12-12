@@ -108,6 +108,13 @@ function newspaper_base_image_default_styles() {
     'name' => 'issue_cover',
     'effects' => array(
       1 => array(
+        'label' => 'Scale and crop - centering',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension with the ability to select center point.',
+        'effect callback' => 'ombucleanup_image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_crop_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'ombucleanup',
         'name' => 'image_scale_and_crop_center',
         'data' => array(
           'width' => 400,
