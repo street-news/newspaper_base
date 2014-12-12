@@ -80,7 +80,6 @@
         this.$block.addClass(response.direction + '-max-reached');
       }
       else {
-        console.log(this.$issues.find(klass));
         this.$issues.find('.' + klass).removeClass(klass);
         this.$issues[insert]($(response.item).addClass(klass));
         this.setPrevNext();
