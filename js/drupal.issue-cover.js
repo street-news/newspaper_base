@@ -65,7 +65,7 @@
       // z-index inline style is present to fix a bug in Firefox that processes
       // z-index incorrectly on css transform.
       // @see https://tickets.ombuweb.com/issues/10091
-      $current.css('z-index', '').removeClass('current')[direction]('li').addClass('current').css('z-index', 10000);
+      $current.css('z-index', '').removeClass('current')[direction]('li').addClass('current').css('z-index', 400);
       this.setPrevNext();
     }
 
