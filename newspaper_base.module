@@ -115,8 +115,9 @@ function newspaper_base_theme($existing, $type, $theme, $path) {
     'newspaper_base_issue_cover' => array(
       'variables' => array('term' => NULL),
     ),
-    'newspaper_base_issue_cover_nav' => array(
-      'variables' => array('term' => NULL, 'previous_term' => NULL, 'next_term' => NULL),
+    'newspaper_base_issue_grid' => array(
+      'variables' => array(),
+      'template' => 'newspaper-base-issue-grid',
     ),
   );
 }
@@ -838,55 +839,6 @@ function newspaper_base_taxonomy_term_page($term) {
 }
 
 /**
- * Implements hook_action_info().
- */
-function newspaper_base_action_info() {
-  $actions = array(
-    'newspaper_base_article_moderation_draft' => array(
-      'type' => 'node',
-      'label' => t('Moderate to Draft'),
-      'configurable' => FALSE,
-      'triggers' => array(),
-    ),
-    'newspaper_base_article_moderation_needs_review' => array(
-      'type' => 'node',
-      'label' => t('Moderate to Needs Review'),
-      'configurable' => TRUE,
-      'triggers' => array(),
-    ),
-    'newspaper_base_article_moderation_published' => array(
-      'type' => 'node',
-      'label' => t('Moderate to Published'),
-      'configurable' => TRUE,
-      'triggers' => array(),
-    ),
-  );
-
-  return $actions;
-}
-
-/**
- * Set workbench moderation status to Draft.
- */
-function newspaper_base_article_moderation_draft($node, $context) {
-  workbench_moderation_moderate($node, 'draft');
-}
-
-/**
- * Set workbench moderation status to Needs Review.
- */
-function newspaper_base_article_moderation_needs_review($node, $context) {
-  workbench_moderation_moderate($node, 'needs_review');
-}
-
-/**
- * Set workbench moderation status to Published.
- */
-function newspaper_base_article_moderation_published($node, $context) {
-  workbench_moderation_moderate($node, 'published');
-}
-
-/**
  * Implements hook_field_attach_view_alter().
  */
 function newspaper_base_field_attach_view_alter(&$output, $context) {
@@ -968,17 +920,68 @@ function newspaper_base_article_issue_navigation() {
 }
 
 /**
- * Theme callback for issue cover nav block.
- */
-function theme_newspaper_base_issue_cover_nav($variables) {
-  $term = $variables['term'];
-}
-
-/**
  * Implements hook_tiles_info_alter().
  */
 function newspaper_base_tiles_info_alter(&$tiles) {
   // Remove bean container from available beans for tiles.
   unset($tiles['bean types'][array_search('bean_container', $tiles['bean types'])]);
   unset($tiles['bean types'][array_search('sociallinks', $tiles['bean types'])]);
+}
+
+/**
+ * Implements hook_apachesolr_search_page_alter().
+ */
+function newspaper_base_apachesolr_search_page_alter(&$build, $search_page) {
+  // Add issue grid to empty search pages.
+  if (empty($build['search_results']['#results'])) {
+    // Add a header to search area.
+    $build = array(
+      'title' => array(
+        '#markup' => '<h2>' . t('Search by Keyword') . '</h2>',
+      ),
+    ) + $build;
+
+    // Two columns, issue grid and search form.
+    $build = array(
+      '#prefix' => '<div class="row">',
+      '#suffix' => '</div>',
+      'issues' => array(
+        '#prefix' => '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 issue-grid">',
+        '#suffix' => '</div>',
+        '#theme' => 'newspaper_base_issue_grid',
+      ),
+      'search' => $build + array(
+        '#prefix' => '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 search">',
+        '#suffix' => '</div>',
+      ),
+    );
+  }
+}
+
+/**
+ * Implements hook_preprocess_newspaper_base_issue_grid().
+ */
+function newspaper_base_preprocess_newspaper_base_issue_grid(&$variables) {
+  // Load up all issues with a pager.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'taxonomy_term')
+    ->entityCondition('bundle', 'issue')
+    ->addTag('newspaper_issue_grid')
+    ->pager(12)
+    ->execute();
+
+  if (!empty($result['taxonomy_term'])) {
+    $terms = taxonomy_term_load_multiple(array_keys($result['taxonomy_term']));
+    foreach ($terms as $term) {
+      $variables['issues'][] = array(
+        '#theme' => 'newspaper_base_issue_cover',
+        '#term' => $term,
+      );
+    }
+
+    $variables['pager'] = array(
+      '#theme' => 'pager',
+    );
+  }
 }
