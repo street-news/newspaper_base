@@ -941,6 +941,9 @@ function newspaper_base_apachesolr_search_page_alter(&$build, $search_page) {
       ),
     ) + $build;
 
+    // Remove facets for now.
+    unset($build['search_results']);
+
     // Two columns, issue grid and search form.
     $build = array(
       '#prefix' => '<div class="row">',
