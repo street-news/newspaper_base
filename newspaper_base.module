@@ -933,7 +933,9 @@ function newspaper_base_tiles_info_alter(&$tiles) {
  */
 function newspaper_base_apachesolr_search_page_alter(&$build, $search_page) {
   // Add issue grid to empty search pages.
-  if (empty($build['search_results']['#results'])) {
+  if (empty($build['search_results']['#results']) && !isset($build['search_results']['#markup'])) {
+    drupal_set_title('Archive');
+
     // Add a header to search area.
     $build = array(
       'title' => array(
@@ -941,12 +943,71 @@ function newspaper_base_apachesolr_search_page_alter(&$build, $search_page) {
       ),
     ) + $build;
 
-    // Remove facets for now.
-    unset($build['search_results']);
+    // List relevant facets and force display as links.
+    module_load_include('inc', 'facetapi', 'facetapi.block');
+    $query = apachesolr_current_query('solr');
+    $searcher = $query->getSearcher();
+    $elements = facetapi_build_realm($searcher, 'block');
+
+    $transform_select = function ($items) {
+      $list_items = array();
+      foreach ($items as $key => $item) {
+        if ($key) {
+          $list_items[] = l($item, $key, array(
+            'attributes' => array(
+              'class' => array('facetapi-inactive'),
+              'rel' => 'nofollow',
+            ),
+          ));
+        }
+      }
+
+      return $list_items;
+    };
+
+    $facets['author'] = array(
+      '#prefix' => '<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><h4>' . t('Author') . '</h4>',
+      '#suffix' => '</div>',
+      'author' => $elements['author']['is_uid'],
+    );
+    $facets['issue'] = array(
+      '#prefix' => '<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><h4>' . t('Issue') . '</h4>',
+      '#suffix' => '</div>',
+      'issue' => array(
+        '#theme' => 'item_list',
+        '#items' => $transform_select($elements['im_field_issue']['im_field_issue']['facets']['#options']),
+        '#attributes' => array(
+          'class' => array('facetapi-facetapi-links', 'facetapi-facet-issue'),
+          'id' => 'facetapi-facet-apachesolrsolr-block-im-field-issue',
+        ),
+      ),
+    );
+    $facets['section'] = array(
+      '#prefix' => '<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><h4>' . t('Section') . '</h4>',
+      '#suffix' => '</div>',
+      'section' => array(
+        '#theme' => 'item_list',
+        '#items' => $transform_select($elements['im_field_section']['im_field_section']['facets']['#options']),
+        '#attributes' => array(
+          'class' => array('facetapi-facetapi-links', 'facetapi-facet-section'),
+          'id' => 'facetapi-facet-apachesolrsolr-block-im-field-section',
+        ),
+      ),
+    );
+
+    // Replace facets with custom built ones.
+    $build['search_results'] = array(
+      '#theme_wrappers' => array('apachesolr_search_browse_blocks'),
+      '#attached' => array(
+        'js' => array(
+          drupal_get_path('module', 'facetapi') . '/facetapi.js',
+        ),
+      ),
+    ) + $facets;
 
     // Two columns, issue grid and search form.
     $build = array(
-      '#prefix' => '<div class="row">',
+      '#prefix' => '<div class="row" id="issue-archive">',
       '#suffix' => '</div>',
       'issues' => array(
         '#prefix' => '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 issue-grid">',
