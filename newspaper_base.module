@@ -923,3 +923,28 @@ function newspaper_base_tiles_info_alter(&$tiles) {
   unset($tiles['bean types'][array_search('bean_container', $tiles['bean types'])]);
   unset($tiles['bean types'][array_search('sociallinks', $tiles['bean types'])]);
 }
+
+/**
+ * Implements hook_media_token_to_markup_alter().
+ */
+function newspaper_base_media_token_to_markup_alter(&$element, $tag_info, $settings) {
+  if ($tag_info['file']->type == 'image') {
+    $element['content']['#prefix'] = '<figure>';
+    $element['content']['#suffix'] = '</figure>';
+
+    // Group all set fields into figcaption element.
+    $captions = array();
+    foreach ($settings['fields'] as $field => $field_info) {
+      if (isset($element['content'][$field])) {
+        $captions[$field] = $element['content'][$field];
+        $element['content'][$field]['#access'] = FALSE;
+      }
+    }
+    if ($captions) {
+      $element['content']['captions'] = $captions + array(
+        '#prefix' => '<figcaption>',
+        '#suffix' => '</figcaption>',
+      );
+    }
+  }
+}
