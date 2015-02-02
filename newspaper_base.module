@@ -555,6 +555,21 @@ function newspaper_base_preprocess_field(&$variables) {
 }
 
 /**
+ * Implements hook_file_load().
+ */
+function newspaper_base_file_load($files) {
+  // Make sure alt/title properties for files aren't double escaped.
+  foreach ($files as $file) {
+    if (!empty($file->alt)) {
+      $file->alt = html_entity_decode($file->alt, ENT_QUOTES);
+    }
+    if (!empty($file->title)) {
+      $file->title = html_entity_decode($file->title, ENT_QUOTES);
+    }
+  }
+}
+
+/**
  * Implements hook_entity_info_alter().
  */
 function newspaper_base_entity_info_alter(&$entity_info) {
