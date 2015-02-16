@@ -505,7 +505,7 @@ function newspaper_base_field_formatter_view($entity_type, $entity, $field, $ins
 
         $caption = $image_caption($file);
         $uri = image_style_url('article_image_full', $file->uri);
-        $build['#prefix'] = "<a class='swipebox' href='$uri' title=' $caption' rel='$gallery_id'>";
+        $build['#prefix'] = "<a class='swipebox' href='$uri' title=' " . addslashes(htmlentities($caption)) . "' rel='$gallery_id'>";
         $build['#suffix'] = '</a>';
 
         $build['file']['#prefix'] = '<figure>';
@@ -532,7 +532,7 @@ function newspaper_base_field_formatter_view($entity_type, $entity, $field, $ins
         foreach ($items as $delta => $item) {
           $file = file_load($item['fid']);
           $uri = image_style_url('article_image_full', $file->uri);
-          $caption = htmlentities($image_caption($file));
+          $caption = addslashes(htmlentities($image_caption($file)));
 
           $element[$delta + 1] = array(
             '#markup' => "<a class='swipebox' href='$uri' title=' $caption' rel='$gallery_id' style='display: none;'>$caption</a>",
