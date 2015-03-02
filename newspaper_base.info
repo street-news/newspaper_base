@@ -1,3 +1,4 @@
+name = Newspaper Base Feature
 description = The base feature for a newspaper site.
 core = 7.x
 package = Newspaper
