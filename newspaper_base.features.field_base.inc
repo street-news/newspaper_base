@@ -445,6 +445,22 @@ function newspaper_base_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
+  // Exported field_base: 'field_sharelinks'
+  $field_bases['field_sharelinks'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_sharelinks',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'field_sharelinks',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'sharelinks',
+  );
+
   // Exported field_base: 'field_sociallinks_sociallinks'
   $field_bases['field_sociallinks_sociallinks'] = array(
     'active' => 1,

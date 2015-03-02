@@ -340,6 +340,7 @@ function newspaper_base_field_default_field_instances() {
       'type' => 'text_textarea_with_summary',
       'weight' => 3,
     ),
+    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'node-article-field_access_section'
@@ -698,6 +699,61 @@ function newspaper_base_field_default_field_instances() {
     'workbench_access_field' => 0,
   );
 
+  // Exported field_instance: 'node-article-field_sharelinks'
+  $field_instances['node-article-field_sharelinks'] = array(
+    'bundle' => 'article',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'field_sharelinks',
+        'settings' => array(
+          'facebook' => 1,
+          'google_plus' => 1,
+          'print' => 1,
+          'twitter' => 1,
+        ),
+        'type' => 'sharelinks_sharelinks_formatter',
+        'weight' => 8,
+      ),
+      'grid' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'title_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_sharelinks',
+    'label' => 'Share Links',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'field_sharelinks',
+      'settings' => array(),
+      'type' => 'sharelinks_sharelinks_widget',
+      'weight' => 4,
+    ),
+    'workbench_access_field' => 0,
+  );
+
   // Exported field_instance: 'node-article-field_tags'
   $field_instances['node-article-field_tags'] = array(
     'bundle' => 'article',
@@ -1028,6 +1084,7 @@ function newspaper_base_field_default_field_instances() {
   t('Optional position title that will be shown on profile page (e.g Editor).');
   t('Publishing Access');
   t('Section');
+  t('Share Links');
   t('Social Links');
   t('Subhead');
   t('Tags');
