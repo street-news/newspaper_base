@@ -37,15 +37,15 @@ function newspaper_base_context_default_contexts() {
           'region' => 'content',
           'weight' => '',
         ),
-        'facetapi-ZqbUzDvO7XzYptjGl0qM9JYi3DKAzqJw' => array(
-          'module' => 'facetapi',
-          'delta' => 'ZqbUzDvO7XzYptjGl0qM9JYi3DKAzqJw',
-          'region' => 'sidebar_second',
-          'weight' => '',
-        ),
         'facetapi-n18E4x0qRRaIP7nV6I0SDYiCJsq77HCB' => array(
           'module' => 'facetapi',
           'delta' => 'n18E4x0qRRaIP7nV6I0SDYiCJsq77HCB',
+          'region' => 'sidebar_second',
+          'weight' => '',
+        ),
+        'facetapi-ZqbUzDvO7XzYptjGl0qM9JYi3DKAzqJw' => array(
+          'module' => 'facetapi',
+          'delta' => 'ZqbUzDvO7XzYptjGl0qM9JYi3DKAzqJw',
           'region' => 'sidebar_second',
           'weight' => '',
         ),
@@ -61,9 +61,9 @@ function newspaper_base_context_default_contexts() {
           'region' => 'sidebar_second',
           'weight' => '',
         ),
-        'facetapi-i5eUJ9YMn0qIHH1koTimiOlHHR1ZjYmj' => array(
+        'facetapi-m9h69sBKZgl8fJjH09StjxqzCGyTI12t' => array(
           'module' => 'facetapi',
-          'delta' => 'i5eUJ9YMn0qIHH1koTimiOlHHR1ZjYmj',
+          'delta' => 'm9h69sBKZgl8fJjH09StjxqzCGyTI12t',
           'region' => 'sidebar_second',
           'weight' => '',
         ),
