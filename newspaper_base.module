@@ -691,11 +691,11 @@ function newspaper_base_user_view($account, $view_mode, $langcode) {
           'default_value' => 'article',
           'field' => 'bundle',
         ),
-        'author' =>
+        'customauthor' =>
         array (
           'visible' => 0,
-          'default_value' => $account->uid,
-          'field' => 'is_uid',
+          'default_value' => $account->name,
+          'field' => 'sm_custom_author_name',
         ),
         'keys' =>
         array (
