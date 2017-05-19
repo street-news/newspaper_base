@@ -94,8 +94,8 @@ function newspaper_base_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => 100,
-          'height' => 66,
+          'width' => 780,
+          'height' => 435,
         ),
         'weight' => 1,
       ),
