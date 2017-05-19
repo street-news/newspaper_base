@@ -45,6 +45,9 @@ class SolrHomepageBeanStyle extends BeanStyle {
 
     // Build grouped by month items.
     $results_by_month = array_slice($results, $num_teaser);
+    // remove results by month
+    // @TODO confirm this is the desire with homepage redesign and remove.
+    $results_by_month = FALSE;
     if ($results_by_month) {
       $curr_month = format_date($results_by_month[0]['node']->created, 'custom', 'F');
       $results_build[$curr_month] = array(
