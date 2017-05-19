@@ -61,25 +61,27 @@ class NewspaperBaseIssueCover extends BeanPlugin {
       $nav = array();
 
       // Load up previous term for navigation.
-      $previous_tid = newspaper_base_get_sibling_tid($term, 'previous');
+      // @TODO remove previous functionality if no future need (homepage redesign 2017)
+      //$previous_tid = newspaper_base_get_sibling_tid($term, 'previous');
       if ($previous_tid) {
 
         $previous_term = taxonomy_term_load($previous_tid);
         $items[] = array(
           'data-tid' => $previous_term->tid,
           'class' => array('prev'),
-          'data' => theme('newspaper_base_issue_cover', array('term' => $previous_term)),
+          'data' => theme('newspaper_base_issue_cover', array('term' => $previous_term, 'style')),
         );
       }
 
       $items[] = array(
         'data-tid' => $term->tid,
         'class' => array('current'),
-        'data' => theme('newspaper_base_issue_cover', array('term' => $term)),
+        'data' => theme('newspaper_base_issue_cover', array('term' => $term, 'style' => 'button')),
       );
 
       // Load up next term for navigation.
-      $next_tid = newspaper_base_get_sibling_tid($term, 'next');
+      // @TODO remove next functionality if no future need (homepage redesign 2017)
+      //$next_tid = newspaper_base_get_sibling_tid($term, 'next');
       if ($next_tid) {
 
         $next_term = taxonomy_term_load($next_tid);
@@ -91,7 +93,8 @@ class NewspaperBaseIssueCover extends BeanPlugin {
       }
 
       // If there is more than one issue, show navigation.
-      if ($items > 1) {
+      // @TODO remove navigation functionality if no future need (homepage redesign 2017)
+      if (count($items) > 1) {
         $nav[] = array(
           '#theme' => 'link',
           '#text' => t('<span>&larr;</span>'),
@@ -128,24 +131,33 @@ class NewspaperBaseIssueCover extends BeanPlugin {
         );
       }
 
-      $content['bean'][$bean->delta]['sentinel'] = array(
-        '#theme' => 'item_list',
-        '#items' => array_slice($items, -1, 1, TRUE),
-        '#attributes' => array(
-          'class' => array('latest-issue'),
-        ),
-      );
+      // @TODO remove navigation and additional cover functionality if no future need (homepage redesign 2017)
+      // $content['bean'][$bean->delta]['sentinel'] = array(
+      //   '#theme' => 'item_list',
+      //   '#items' => array_slice($items, -1, 1, TRUE),
+      //   '#attributes' => array(
+      //     'class' => array('latest-issue'),
+      //   ),
+      // );
 
-      $content['bean'][$bean->delta]['covers'] = array(
-        '#theme' => 'item_list',
-        '#items' => $items,
+      // $content['bean'][$bean->delta]['covers'] = array(
+      //   '#theme' => 'item_list',
+      //   '#items' => $items,
+      //   '#attributes' => array(
+      //     'class' => array('issues'),
+      //   ),
+      //   '#attached' => array(
+      //     'js' => array(
+      //       drupal_get_path('module', 'newspaper_base') . '/js/drupal.issue-cover.js' => array(),
+      //     ),
+      //   ),
+      // );
+      // kpr($items);
+
+      $content['cover'] = array(
+        '#markup' => $items[0]['data'],
         '#attributes' => array(
           'class' => array('issues'),
-        ),
-        '#attached' => array(
-          'js' => array(
-            drupal_get_path('module', 'newspaper_base') . '/js/drupal.issue-cover.js' => array(),
-          ),
         ),
       );
     }

@@ -113,7 +113,10 @@ function newspaper_base_theme($existing, $type, $theme, $path) {
       'render element' => 'element',
     ),
     'newspaper_base_issue_cover' => array(
-      'variables' => array('term' => NULL),
+      'variables' => array(
+        'term' => NULL,
+        'style' => NULL,
+      ),
     ),
   );
 }
@@ -901,11 +904,37 @@ function theme_newspaper_base_issue_cover($variables) {
     '#path' => $image_items[0]['uri'],
   );
 
-  $cover = drupal_render($cover);
+  if ($variables['style'] == 'button') {
+    $cover = drupal_render($cover);
+    $url = url('taxonomy/term/' . $term->tid);
+    $output = <<<EOD
+    <div class="cover-current">
+      <a href="$url">$cover</a>
+      <div class="cover-current-info">
+        <a href="$url">
+          <span class="cover-current-info-label">Current Issue</span>
+          <span class="cover-current-info-subtitle">Buy from a street roots vendor</span>
+        </a>
+      </div>
+    </div>
+    <a href="/archive" class="cover-past-link">Read Past Issues</a>
+EOD;
+  } else {
+    $cover = array(
+      '#prefix' => '<div class="image">',
+      '#suffix' => '</div>',
+      '#theme' => 'image_style',
+      '#style_name' => 'issue_cover',
+      '#path' => $image_items[0]['uri'],
+    );
 
-  $name = '<h6 class="date"><strong>' . $term->name . '</strong></h6>';
-  $output = $cover . '<div class="text">' . $name . '</div>';
-  $output = '<a href="' . url('taxonomy/term/' . $term->tid) . '">' . $output . '</a>';
+    $cover = drupal_render($cover);
+
+    $name = '<h6 class="date"><strong>' . $term->name . '</strong></h6>';
+    $output = $cover . '<div class="text">' . $name . '</div>';
+    $output = '<a href="' . url('taxonomy/term/' . $term->tid) . '">' . $output . '</a>';
+  }
+
 
   return $output;
 }
