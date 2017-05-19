@@ -909,13 +909,13 @@ function theme_newspaper_base_issue_cover($variables) {
     $url = url('taxonomy/term/' . $term->tid);
     $output = <<<EOD
     <div class="cover-current">
-      <a href="$url">$cover</a>
-      <div class="cover-current-info">
-        <a href="$url">
+      <div class="cover-current-image">$cover</div>
+      <a class="cover-current-info" href="$url">
+        <div class="cover-current-info-inner">
           <span class="cover-current-info-label">Current Issue</span>
           <span class="cover-current-info-subtitle">Buy from a street roots vendor</span>
-        </a>
-      </div>
+        </div>
+      </a>
     </div>
     <a href="/archive" class="cover-past-link">Read Past Issues</a>
 EOD;
