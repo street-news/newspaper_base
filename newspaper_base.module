@@ -639,6 +639,13 @@ function newspaper_base_bean_style_info() {
         'featuredbean',
       ),
     ),
+    'secondary_feature_article' => array(
+      'label'          => 'Secondary Featured Article',
+      'class'          => 'SecondaryArticleBeanStyle',
+      'bean_types'     => array(
+        'featuredbean',
+      ),
+    ),
   );
 }
 

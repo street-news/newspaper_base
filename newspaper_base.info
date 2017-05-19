@@ -97,5 +97,6 @@ files[] = includes/AdBean.class.php
 files[] = includes/SolrHomepageBeanStyle.php
 files[] = includes/CalloutBeanStyle.php
 files[] = includes/HeadlineArticleBeanStyle.php
+files[] = includes/SecondaryArticleBeanStyle.php
 me = Newspaper Base
 mtime = 1484176738
