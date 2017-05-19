@@ -632,6 +632,13 @@ function newspaper_base_bean_style_info() {
         'featuredbean',
       ),
     ),
+    'headline_article' => array(
+      'label'          => 'Headline Article',
+      'class'          => 'HeadlineArticleBeanStyle',
+      'bean_types'     => array(
+        'featuredbean',
+      ),
+    ),
   );
 }
 
