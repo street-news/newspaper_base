@@ -910,12 +910,12 @@ function theme_newspaper_base_issue_cover($variables) {
     $output = <<<EOD
     <div class="cover-current">
       <div class="cover-current-image">$cover</div>
-      <a class="cover-current-info" href="$url">
+      <div class="cover-current-info" href="$url">
         <div class="cover-current-info-inner">
           <span class="cover-current-info-label">Current Issue</span>
           <span class="cover-current-info-subtitle">Buy from a street roots vendor</span>
         </div>
-      </a>
+      </div>
     </div>
     <a href="/archive" class="cover-past-link">Read Past Issues</a>
 EOD;
