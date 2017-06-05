@@ -30,41 +30,35 @@ class SolrHomepageBeanStyle extends BeanStyle {
     // Store reference to solr search page.
     $this->search_page = $build['search']['search_results']['#search_page'];
 
-    $num_teaser = 0;
-
-    // Handle items here instead of prepareItems() in order to handle
-    // differences between initial results and grouped results.
-    if ($this->showTeasers()) {
-      $num_teaser = variable_get('solr_homepage_teaser_count', 5);
-      $results_teaser = array_slice($results, 0, $num_teaser);
-      foreach ($results_teaser as $result) {
+    if ($results){
+      foreach ($results as $result) {
         $node = node_load($result['node']->entity_id);
         $results_build[] = node_view($node, 'teaser');
       }
     }
 
     // Build grouped by month items.
-    $results_by_month = array_slice($results, $num_teaser);
-    // remove results by month
-    // @TODO confirm this is the desire with homepage redesign and remove.
-    $results_by_month = FALSE;
-    if ($results_by_month) {
-      $curr_month = format_date($results_by_month[0]['node']->created, 'custom', 'F');
-      $results_build[$curr_month] = array(
-        '#prefix' => '<h3 class="month-title">' . $curr_month . ' <strong>Archives</strong></h3>',
-      );
-      foreach ($results_by_month as $result) {
-        $node = node_load($result['node']->entity_id);
-        $month = format_date($node->created, 'custom', 'F');
-        if ($month !== $curr_month) {
-          $curr_month = $month;
-          $results_build[$curr_month] = array(
-            '#prefix' => '<h3 class="month-title">' . $curr_month . ' <strong>Archives</strong></h3>',
-          );
-        }
-        $results_build[$curr_month][] = node_view($node, 'title_list');
-      }
-    }
+    // $results_by_month = array_slice($results, $num_teaser);
+    // // remove results by month
+    // // @TODO confirm this is the desire with homepage redesign and remove.
+    // $results_by_month = FALSE;
+    // if ($results_by_month) {
+    //   $curr_month = format_date($results_by_month[0]['node']->created, 'custom', 'F');
+    //   $results_build[$curr_month] = array(
+    //     '#prefix' => '<h3 class="month-title">' . $curr_month . ' <strong>Archives</strong></h3>',
+    //   );
+    //   foreach ($results_by_month as $result) {
+    //     $node = node_load($result['node']->entity_id);
+    //     $month = format_date($node->created, 'custom', 'F');
+    //     if ($month !== $curr_month) {
+    //       $curr_month = $month;
+    //       $results_build[$curr_month] = array(
+    //         '#prefix' => '<h3 class="month-title">' . $curr_month . ' <strong>Archives</strong></h3>',
+    //       );
+    //     }
+    //     $results_build[$curr_month][] = node_view($node, 'title_list');
+    //   }
+    // }
 
     $build['search']['search_results'] = $results_build;
 
