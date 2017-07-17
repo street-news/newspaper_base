@@ -500,7 +500,7 @@ function newspaper_base_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_images'
+  // Exported field_instance: 'node-article-field_images'.
   $field_instances['node-article-field_images'] = array(
     'bundle' => 'article',
     'deleted' => 0,
@@ -508,9 +508,8 @@ function newspaper_base_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'hidden',
-        'module' => 'newspaper_base',
         'settings' => array(),
-        'type' => 'image_lightbox',
+        'type' => 'hidden',
         'weight' => 1,
       ),
       'grid' => array(
