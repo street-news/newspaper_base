@@ -21,6 +21,12 @@ class SolrHomepageBeanStyle extends BeanStyle {
   public function prepareView($build, $bean) {
     parent::prepareView($build, $bean);
 
+    $anchor = drupal_html_id($bean->delta);
+    $build['search']['anchor'] = array(
+      '#markup' => "<div class='solr-bean-anchor' id='$anchor'></div>",
+      '#weight' => -1,
+    );
+
     if (empty($build['search']['search_results']['#results'])) {
       return array();
     }
@@ -37,35 +43,13 @@ class SolrHomepageBeanStyle extends BeanStyle {
       }
     }
 
-    // Build grouped by month items.
-    // $results_by_month = array_slice($results, $num_teaser);
-    // // remove results by month
-    // // @TODO confirm this is the desire with homepage redesign and remove.
-    // $results_by_month = FALSE;
-    // if ($results_by_month) {
-    //   $curr_month = format_date($results_by_month[0]['node']->created, 'custom', 'F');
-    //   $results_build[$curr_month] = array(
-    //     '#prefix' => '<h3 class="month-title">' . $curr_month . ' <strong>Archives</strong></h3>',
-    //   );
-    //   foreach ($results_by_month as $result) {
-    //     $node = node_load($result['node']->entity_id);
-    //     $month = format_date($node->created, 'custom', 'F');
-    //     if ($month !== $curr_month) {
-    //       $curr_month = $month;
-    //       $results_build[$curr_month] = array(
-    //         '#prefix' => '<h3 class="month-title">' . $curr_month . ' <strong>Archives</strong></h3>',
-    //       );
-    //     }
-    //     $results_build[$curr_month][] = node_view($node, 'title_list');
-    //   }
-    // }
-
     $build['search']['search_results'] = $results_build;
 
     if (!empty($bean->settings['pager'])) {
       $build['search']['pager'] = array(
         '#theme' => 'pager',
         '#element' => $bean->settings['pager_element'],
+        '#parameters' => array('bean_element' => $anchor),
         '#weight' => 100,
       );
     }
