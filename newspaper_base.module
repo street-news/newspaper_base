@@ -711,7 +711,7 @@ function newspaper_base_user_view($account, $view_mode, $langcode) {
         'customauthor' =>
         array (
           'visible' => 0,
-          'default_value' => ($account->field_user_name) ? $account->field_user_name[LANUGUAGE_NONE][0]['value'] : $account->name,
+          'default_value' => ($account->field_user_name) ? $account->field_user_name[LANGUAGE_NONE][0]['value'] : $account->name,
           'field' => 'sm_custom_author_name',
         ),
         'keys' =>
