@@ -63,6 +63,7 @@ class NewspaperBaseIssueCover extends BeanPlugin {
       // Load up previous term for navigation.
       // @TODO remove previous functionality if no future need (homepage redesign 2017)
       //$previous_tid = newspaper_base_get_sibling_tid($term, 'previous');
+      $previous_tid = NULL;
       if ($previous_tid) {
 
         $previous_term = taxonomy_term_load($previous_tid);
@@ -82,6 +83,7 @@ class NewspaperBaseIssueCover extends BeanPlugin {
       // Load up next term for navigation.
       // @TODO remove next functionality if no future need (homepage redesign 2017)
       //$next_tid = newspaper_base_get_sibling_tid($term, 'next');
+      $next_tid = NULL;
       if ($next_tid) {
 
         $next_term = taxonomy_term_load($next_tid);
