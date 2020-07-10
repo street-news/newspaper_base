@@ -812,7 +812,7 @@ function newspaper_base_taxonomy_term_page($term) {
     $solr_query = 'im_field_section:' . $term->tid;
   }
   if ($solr_query) {
-    drupal_goto('archive', array(
+    drupal_goto('news/archive', array(
       'query' => array(
         'f' => array(
           $solr_query,
