@@ -221,18 +221,7 @@ function newspaper_base_block_view($delta = '') {
     case 'user_link':
       if (!user_is_logged_in()) {
         $block['subject'] = '';
-        $block['content'] = array(
-          'link' => array(
-            '#type' => 'link',
-            '#href' => 'user',
-            '#title' => 'Log In',
-            '#options' => array(
-              'attributes' => array(
-                'class' => array('btn'),
-              ),
-            ),
-          ),
-        );
+        $block['content'] = '';
       }
   }
   return $block;
