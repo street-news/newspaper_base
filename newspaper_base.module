@@ -231,7 +231,7 @@ function newspaper_base_block_view($delta = '') {
  * Block callback for issue cover image.
  */
 function newspaper_base_issue_cover_block() {
-  $build = '';
+  $build = array();
 
   if (($term = menu_get_object('taxonomy_term', 2)) && $term->vocabulary_machine_name == 'issue') {
     $cover = field_get_items('taxonomy_term', $term, 'field_issue_image');
