@@ -128,14 +128,6 @@ class NewspaperBaseIssueCover extends BeanPlugin {
         );
       }
 
-      $content['bean'][$bean->delta]['sentinel'] = array(
-        '#theme' => 'item_list',
-        '#items' => array_slice($items, -1, 1, TRUE),
-        '#attributes' => array(
-          'class' => array('latest-issue'),
-        ),
-      );
-
       $content['bean'][$bean->delta]['covers'] = array(
         '#theme' => 'item_list',
         '#items' => $items,
@@ -146,6 +138,14 @@ class NewspaperBaseIssueCover extends BeanPlugin {
           'js' => array(
             drupal_get_path('module', 'newspaper_base') . '/js/drupal.issue-cover.js' => array(),
           ),
+        ),
+      );
+    
+      $content['bean'][$bean->delta]['sentinel'] = array(
+        '#theme' => 'item_list',
+        '#items' => array_slice($items, -1, 1, TRUE),
+        '#attributes' => array(
+          'class' => array('latest-issue'),
         ),
       );
     }
